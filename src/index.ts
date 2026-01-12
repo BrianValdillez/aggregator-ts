@@ -5,6 +5,7 @@ import { handlerLogin } from './commands/loginCommand.js';
 import { handlerRegister } from './commands/registerCommand.js';
 import { handlerReset } from './commands/resetCommand.js';
 import { handlerUsers } from './commands/usersCommand.js';
+import { handlerAgg } from './commands/aggCommand.js';
 
 async function main() {
   const registry: CommandsRegistry = {};
@@ -12,6 +13,7 @@ async function main() {
   registerCommand(registry, 'register', handlerRegister);
   registerCommand(registry, 'reset', handlerReset);
   registerCommand(registry, 'users', handlerUsers);
+  registerCommand(registry, 'agg', handlerAgg);
 
   if (process.argv.length <= 2){
     console.log('No commands received!');
