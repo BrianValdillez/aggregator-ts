@@ -1,4 +1,3 @@
-import { db } from "src/lib/db";
 import { resetUsers } from "src/lib/db/queries/users";
 
 
