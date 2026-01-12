@@ -1,6 +1,8 @@
 import { integer } from 'drizzle-orm/gel-core';
-import { createUser, getUser } from '../lib/db/queries/users.js';
 import { exit } from 'node:process';
+
+import { createUser, getUser } from '../lib/db/queries/users.js';
+import { setUser } from 'src/config.js';
 
 
 export async function handlerRegister(cmdName: string, ...args: string[]){
@@ -21,8 +23,9 @@ export async function handlerRegister(cmdName: string, ...args: string[]){
 
   if (result === undefined){
     console.log("Registration failed!");
-    return;
+    exit(1);
   }
 
   console.log("Success!");
+  setUser(username);
 }

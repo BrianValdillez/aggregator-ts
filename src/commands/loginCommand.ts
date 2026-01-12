@@ -1,9 +1,10 @@
+import { exit } from 'node:process';
 import { readConfig, setUser } from '../config.js';
 import { getUser } from '../lib/db/queries/users.js';
 
 export async function handlerLogin(cmdName: string, ...args: string[]){
   if (args.length === 0){
-    throw Error("login expects a username arguement!");
+    exit(1);
   }
 
   const username = args[0];
@@ -15,7 +16,7 @@ export async function handlerLogin(cmdName: string, ...args: string[]){
     }
   }catch(error){
     console.log(`Failed to login with user: ${username}`);
-    return;
+    exit(1);
   }
   
   setUser(username);
