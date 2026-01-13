@@ -61,7 +61,7 @@ export async function fetchFeed(feedURL: string): Promise<RSSChannel>{
     
     const rssChannel:RSSChannel = {
         title: channelObj.title,
-        link: channelObj.link,
+        link: feedURL,
         description: channelObj.description,
 
         items: [],

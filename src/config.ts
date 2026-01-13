@@ -16,6 +16,11 @@ export function setUser(userName: string){
     writeConfig(cfg);
 }
 
+export function getActiveUser(): string {
+    const cfg = readConfig();
+    return cfg.currentUserName;
+}
+
 export function readConfig(): Config {
     const cfgPath = getConfigFilePath();
     try {

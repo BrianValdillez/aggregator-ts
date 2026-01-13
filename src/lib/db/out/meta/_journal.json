@@ -15,6 +15,13 @@
       "when": 1768264624419,
       "tag": "0001_outstanding_winter_soldier",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1768282827349,
+      "tag": "0002_narrow_sage",
+      "breakpoints": true
     }
   ]
 }

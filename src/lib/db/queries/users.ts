@@ -3,12 +3,12 @@ import { exit } from "node:process";
 import { eq, lt, gte, ne } from 'drizzle-orm';
 import { type User, users } from "../schema";
 
-export async function createUser(name: string) {
+export async function createUser(name: string): Promise<User> {
   const [result] = await db.insert(users).values({ name: name }).returning();
   return result;
 }
 
-export async function getUser(name: string) {
+export async function getUser(name: string): Promise<User> {
     const [result] = await db.select().from(users).where(eq(users.name, name));
     return result;
 }
