@@ -22,6 +22,13 @@
       "when": 1768282827349,
       "tag": "0002_narrow_sage",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1768334791077,
+      "tag": "0003_sleepy_vermin",
+      "breakpoints": true
     }
   ]
 }

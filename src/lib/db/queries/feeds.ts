@@ -1,6 +1,7 @@
 import { db } from "..";
 import { exit } from "node:process";
-import { and, eq, lt, gte, ne } from 'drizzle-orm';
+import { and, eq, lt, gte, ne, sql } from 'drizzle-orm';
+import { PgTimestamp, timestamp } from "drizzle-orm/pg-core";
 import { type User, users, type Feed, feeds, type FeedFollow, feed_follows } from "../schema";
 import { RSSChannel } from "src/rss";
 
@@ -44,6 +45,11 @@ export async function getFeeds(): Promise<GetFeedsResult[]> {
     return results;
 }
 
+export async function getFeedByID(feedID: string): Promise<Feed> {
+    const [feed] = await db.select().from(feeds).where(eq(feeds.id, feedID));
+    return feed;
+}
+
 export async function getFeedByURL(url: string): Promise<Feed>{
     const [feed] = await db.select().from(feeds).where(eq(feeds.url, url));
     return feed;
@@ -78,7 +84,7 @@ export async function unfollowFeed(userId: string, feedId: string): Promise<bool
     } catch (error){
         return false;
     }
-    
+
     return true;
 }
 
@@ -92,4 +98,19 @@ export async function getFeedFollowsForUser(userId:string): Promise<UserFeedFoll
 
 
     return feedFollows;
+}
+
+export async function markFeedFetched(feedID: string){
+    const feed = await getFeedByID(feedID);
+
+    const timestamp = new Date();
+    await db.update(feeds).set({
+        lastFetchedAt: timestamp,
+        updatedAt: timestamp,
+    }).where(eq(feeds.id, feedID));
+}
+
+export async function getNextFeedToFetch(): Promise<Feed>{
+    const [feed] = await db.select().from(feeds).orderBy(sql`${feeds.lastFetchedAt} ASC NULLS FIRST`).limit(1);
+    return feed;
 }
