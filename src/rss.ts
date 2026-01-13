@@ -2,7 +2,7 @@ import { XMLParser } from "fast-xml-parser";
 import { channel, Channel } from "node:diagnostics_channel";
 import { exit, title } from "node:process";
 
-type RSSChannel = {
+export type RSSChannel = {
     title: string;
     link: string;
     description: string;
@@ -10,7 +10,7 @@ type RSSChannel = {
     items: RSSItem[];
 };
 
-type RSSItem = {
+export type RSSItem = {
     title: string;
     link: string;
     description: string;
