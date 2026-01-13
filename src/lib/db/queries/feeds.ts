@@ -1,6 +1,6 @@
 import { db } from "..";
 import { exit } from "node:process";
-import { eq, lt, gte, ne } from 'drizzle-orm';
+import { and, eq, lt, gte, ne } from 'drizzle-orm';
 import { type User, users, type Feed, feeds, type FeedFollow, feed_follows } from "../schema";
 import { RSSChannel } from "src/rss";
 
@@ -68,6 +68,18 @@ export async function createFeedFollow(userId: string, feedId: string): Promise<
     .innerJoin(users, eq(feed_follows.user_id, users.id));
 
     return feedFollowResult;
+}
+
+export async function unfollowFeed(userId: string, feedId: string): Promise<boolean> {
+    try {
+        await db.delete(feed_follows).where(and(
+            eq(feed_follows.user_id, userId),
+            eq(feed_follows.feed_id, feedId)));
+    } catch (error){
+        return false;
+    }
+    
+    return true;
 }
 
 export async function getFeedFollowsForUser(userId:string): Promise<UserFeedFollowResult[]> {

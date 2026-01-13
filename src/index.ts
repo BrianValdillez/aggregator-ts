@@ -8,7 +8,7 @@ import { handlerUsers } from './commands/usersCommand.js';
 import { handlerAgg } from './commands/aggCommand.js';
 import { handlerAddFeed } from './commands/addFeedCommand.js';
 import { handlerFeeds } from './commands/feedsCommand.js';
-import { handlerFollow, handlerFollowing } from './commands/followCommand.js';
+import { handlerFollow, handlerFollowing, handlerUnfollow } from './commands/followCommand.js';
 
 async function main() {
   const registry: CommandsRegistry = {};
@@ -20,6 +20,7 @@ async function main() {
   registerCommand(registry, 'feeds', handlerFeeds);
   registerCommand(registry, 'addfeed', middlewareLoggedIn(handlerAddFeed));
   registerCommand(registry, 'follow', middlewareLoggedIn(handlerFollow));
+  registerCommand(registry, 'unfollow', middlewareLoggedIn(handlerUnfollow));
   registerCommand(registry, 'following', middlewareLoggedIn(handlerFollowing));
 
   if (process.argv.length <= 2){

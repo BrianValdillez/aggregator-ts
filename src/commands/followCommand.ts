@@ -1,5 +1,5 @@
 import { exit } from "process";
-import { createFeedFollow, getFeedByURL, getFeedFollowsForUser } from "src/lib/db/queries/feeds.js";
+import { createFeedFollow, getFeedByURL, getFeedFollowsForUser, unfollowFeed } from "src/lib/db/queries/feeds.js";
 import { getActiveUser } from "src/config.js";
 import { getUser } from "src/lib/db/queries/users";
 import { User } from "src/lib/db/schema";
@@ -38,4 +38,22 @@ export async function handlerFollowing(cmdName: string, user: User, ...args: str
     for (const follow of follows){
         console.log(`\t- ${follow.feedName}`);
     }
+}
+
+export async function handlerUnfollow(cmdName: string, user: User, ...args: string[]){
+    if (args.length === 0){
+        exit(1);
+    }
+
+    const [feedURL] = args;
+    console.log(`Unsubscribing user ${user.name} from feed ${feedURL}`);
+
+    const feed = await getFeedByURL(feedURL);
+    if (!feed?.id){
+        console.log(`ERR: Could not find feed with URL: ${feedURL}`);
+        exit(1);
+    }
+
+    const success = await unfollowFeed(user.id, feed.id);
+    console.log(success ? 'Success!' : 'Unsubscribe failed!');
 }
