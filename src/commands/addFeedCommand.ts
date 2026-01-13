@@ -12,16 +12,13 @@ function printFeed(feed: Feed, user: User){
     console.log(JSON.stringify(feed));
 }
 
-export async function handlerAddFeed(cmdName: string, ...args: string[]){
+export async function handlerAddFeed(cmdName: string, user: User,...args: string[]){
     if (args.length < 2){
         console.log('ERR: Not enough parameters provided. Requires name and URL.')
         exit(1);
     }
 
     const [feedName, feedURL] = args;
-
-    const config = readConfig();
-    const user = await getUser(config.currentUserName);
     const rssChannel = await fetchFeed(feedURL);
     const feed = await createFeed(feedName, user, rssChannel);
 

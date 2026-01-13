@@ -1,6 +1,6 @@
 import { exit } from 'process';
 import { type CommandsRegistry, registerCommand, runCommand } from './commands/commands.js';
-
+import { type UserCommandHandler, middlewareLoggedIn } from './commands/userMiddleware.js';
 import { handlerLogin } from './commands/loginCommand.js';
 import { handlerRegister } from './commands/registerCommand.js';
 import { handlerReset } from './commands/resetCommand.js';
@@ -17,10 +17,10 @@ async function main() {
   registerCommand(registry, 'reset', handlerReset);
   registerCommand(registry, 'users', handlerUsers);
   registerCommand(registry, 'agg', handlerAgg);
-  registerCommand(registry, 'addfeed', handlerAddFeed);
   registerCommand(registry, 'feeds', handlerFeeds);
-  registerCommand(registry, 'follow', handlerFollow);
-  registerCommand(registry, 'following', handlerFollowing);
+  registerCommand(registry, 'addfeed', middlewareLoggedIn(handlerAddFeed));
+  registerCommand(registry, 'follow', middlewareLoggedIn(handlerFollow));
+  registerCommand(registry, 'following', middlewareLoggedIn(handlerFollowing));
 
   if (process.argv.length <= 2){
     console.log('No commands received!');

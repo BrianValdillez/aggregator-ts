@@ -1,4 +1,5 @@
 import { exit } from 'process';
+import { type User } from 'src/lib/db/schema.js';
 
 export type CommandHandler = (cmdName: string, ...args: string[]) => Promise<void>;
 export type CommandsRegistry = Record<string, CommandHandler>;
