@@ -1,6 +1,7 @@
 import { exit } from "process";
-import { getNextFeedToFetch, markFeedFetched } from "src/lib/db/queries/feeds";
-import { fetchFeed } from "src/rss";
+import { getNextFeedToFetch, markFeedFetched } from "src/lib/db/queries/feeds.js";
+import { createPost } from "src/lib/db/queries/posts.js";
+import { fetchFeed } from "src/rss.js";
 
 async function scrapeNextFeed(){
     const feed = await getNextFeedToFetch();
@@ -9,7 +10,8 @@ async function scrapeNextFeed(){
 
     console.log(`${feed.name} (${channel.title})`);
     for (const item of channel.items){
-        console.log(`\t- ${item.title}`);
+        //console.log(`\t- ${item.description}`);
+        await createPost(feed.id, item);
     }
 }
 

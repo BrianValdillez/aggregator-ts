@@ -9,6 +9,7 @@ import { handlerAgg } from './commands/aggCommand.js';
 import { handlerAddFeed } from './commands/addFeedCommand.js';
 import { handlerFeeds } from './commands/feedsCommand.js';
 import { handlerFollow, handlerFollowing, handlerUnfollow } from './commands/followCommand.js';
+import { handlerBrowse } from './commands/browseCommand.js';
 
 async function main() {
   const registry: CommandsRegistry = {};
@@ -22,6 +23,7 @@ async function main() {
   registerCommand(registry, 'follow', middlewareLoggedIn(handlerFollow));
   registerCommand(registry, 'unfollow', middlewareLoggedIn(handlerUnfollow));
   registerCommand(registry, 'following', middlewareLoggedIn(handlerFollowing));
+  registerCommand(registry, 'browse', middlewareLoggedIn(handlerBrowse));
 
   if (process.argv.length <= 2){
     console.log('No commands received!');

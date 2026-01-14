@@ -89,7 +89,7 @@ export async function fetchFeed(feedURL: string): Promise<RSSChannel>{
             title: item.title,
             link: item.link,
             description: item.description,
-            pubDate: item.pubDate,
+            pubDate: new Date(item.pubDate), // TODO: Parse dates in various formats...
         });
     }
 
